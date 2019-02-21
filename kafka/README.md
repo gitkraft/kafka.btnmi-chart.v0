@@ -12,7 +12,7 @@ $ helm install bitnami/kafka
 
 This chart bootstraps a [Kafka](https://github.com/bitnami/bitnami-docker-kafka) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
-Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment and management of Helm Charts in clusters.
+Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment and management of Helm Charts in clusters. This Helm chart has been tested on top of [Bitnami Kubernetes Production Runtime](https://kubeprod.io/) (BKPR). Deploy BKPR to get automated TLS certificates, logging and monitoring for your applications.
 
 ## Prerequisites
 
@@ -52,7 +52,7 @@ The following tables lists the configurable parameters of the Kafka chart and th
 | `image.repository`               | Kafka Image name                                                                                           | `bitnami/kafka`                                                    |
 | `image.tag`                      | Kafka Image tag                                                                                            | `{VERSION}`                                                        |
 | `image.pullPolicy`               | Kafka image pull policy                                                                                    | `Always`                                                           |
-| `image.pullSecrets`              | Specify image pull secrets                                                                                 | `nil` (does not add image pull secrets to deployed pods)           |
+| `image.pullSecrets`              | Specify docker-registry secret names as an array                                                           | `[]` (does not add image pull secrets to deployed pods)            |
 | `image.debug`                    | Specify if debug values should be set                                                                      | `false`                                                            |
 | `updateStrategy`                 | Update strategy for the stateful set                                                                       | `1`                                                                |
 | `replicaCount`                   | Number of Kafka nodes                                                                                      | `1`                                                                |
@@ -120,7 +120,7 @@ The following tables lists the configurable parameters of the Kafka chart and th
 | `metrics.kafka.image.repository`      | Kafka exporter image name                                                                             | `danielqsj/kafka-exporter`                                         |
 | `metrics.kafka.image.tag`             | Kafka exporter image tag                                                                              | `v1.0.1`                                                           |
 | `metrics.kafka.image.pullPolicy`      | Kafka exporter image pull policy                                                                      | `Always`                                                           |
-| `metrics.kafka.image.pullSecrets`     | Specify image pull secrets                                                                            | `nil` (does not add image pull secrets to deployed pods)           |
+| `metrics.kafka.image.pullSecrets`     | Specify docker-registry secret names as an array                                                      | `[]` (does not add image pull secrets to deployed pods)            |
 | `metrics.kafka.interval`              | Interval that Prometheus scrapes Kafka metrics when using Prometheus Operator                         | `10s`                                                              |
 | `metrics.kafka.port`                  | Kafka Exporter Port which exposes metrics in Prometheus format for scraping                           | `9308`                                                             |
 | `metrics.kafka.resources`             | Allows setting resource limits for kafka-exporter pod                                                 | `{}`                                                               |
@@ -130,7 +130,7 @@ The following tables lists the configurable parameters of the Kafka chart and th
 | `metrics.jmx.image.repository`        | JMX exporter image name                                                                               | `solsson/kafka-prometheus-jmx-exporter@sha256`                     |
 | `metrics.jmx.image.tag`               | JMX exporter image tag                                                                                | `a23062396cd5af1acdf76512632c20ea6be76885dfc20cd9ff40fb23846557e8` |
 | `metrics.jmx.image.pullPolicy`        | JMX exporter image pull policy                                                                        | `Always`                                                           |
-| `metrics.jmx.image.pullSecrets`       | Specify image pull secrets                                                                            | `nil` (does not add image pull secrets to deployed pods)           |
+| `metrics.jmx.image.pullSecrets`       | Specify docker-registry secret names as an array                                                      | `[]` (does not add image pull secrets to deployed pods)            |
 | `metrics.jmx.interval`                | Interval that Prometheus scrapes JMX metrics when using Prometheus Operator                           | `10s`                                                              |
 | `metrics.jmx.exporterPort`            | JMX Exporter Port which exposes metrics in Prometheus format for scraping                             | `5556`                                                             |
 | `metrics.jmx.configMap.enabled`       | Enable the default ConfigMap for JMX                                                                  | `true`                                                             |
