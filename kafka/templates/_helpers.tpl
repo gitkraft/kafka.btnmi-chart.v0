@@ -93,25 +93,30 @@ Also, we can not use a single if because lazy evaluation is not an option
 {{- if .Values.global }}
 {{- if .Values.global.imagePullSecrets }}
 imagePullSecrets:
-{{- range
-.Values.global.imagePullSecrets }}
+{{- range .Values.global.imagePullSecrets }}
   - name: {{ . }}
 {{- end }}
-{{- else if or .Values.image.pullSecrets .Values.metrics.image.pullSecrets }}
+{{- else if or .Values.image.pullSecrets .Values.metrics.kafka.image.pullSecrets .Values.metrics.jmx.image.pullSecrets }}
 imagePullSecrets:
 {{- range .Values.image.pullSecrets }}
   - name: {{ . }}
 {{- end }}
-{{- range .Values.metrics.image.pullSecrets }}
+{{- range .Values.metrics.kafka.image.pullSecrets }}
+  - name: {{ . }}
+{{- end }}
+{{- range .Values.metrics.jmx.image.pullSecrets }}
   - name: {{ . }}
 {{- end }}
 {{- end -}}
-{{- else if or .Values.image.pullSecrets .Values.metrics.image.pullSecrets }}
+{{- else if or .Values.image.pullSecrets .Values.metrics.kafka.image.pullSecrets .Values.metrics.jmx.image.pullSecrets }}
 imagePullSecrets:
 {{- range .Values.image.pullSecrets }}
   - name: {{ . }}
 {{- end }}
-{{- range .Values.metrics.image.pullSecrets }}
+{{- range .Values.metrics.kafka.image.pullSecrets }}
+  - name: {{ . }}
+{{- end }}
+{{- range .Values.metrics.jmx.image.pullSecrets }}
   - name: {{ . }}
 {{- end }}
 {{- end -}}
