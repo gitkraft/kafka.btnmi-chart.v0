@@ -200,8 +200,8 @@ spec:
           value: {{ .Values.socketSendBufferBytes | quote }}
         - name: KAFKA_CFG_ZOOKEEPER_CONNECT_TIMEOUT_MS
           value: {{ .Values.zookeeperConnectionTimeoutMs | quote }}
-        {{- if .Values.airflow.extraEnvVars }}
-          {{ toYaml .Values.airflow.extraEnvVars | nindent 8 }}
+        {{- if .Values.extraEnvVars }}
+          {{ toYaml .Values.extraEnvVars | nindent 8 }}
         {{- end }}
         ports:
         - name: kafka
@@ -284,14 +284,25 @@ spec:
           secretName: {{ required "A secret containinig the Kafka JKS certificates is required when authentication in enabled" .Values.auth.certificatesSecret }}
           defaultMode: 256
       {{ end }}
-{{- if .Values.persistence.enabled }}
+{{- if not .Values.persistence.enabled }}
+      - name: data
+        emptyDir: {}
+{{- else if .Values.persistence.existingClaim }}
+      - name: data
+        persistentVolumeClaim:
+{{- with .Values.persistence.existingClaim }}
+          claimName: {{ tpl . $ }}
+{{- end }}
+{{- else }}
   volumeClaimTemplates:
     - metadata:
         name: data
+      {{- with .Values.persistence.annotations }}
         annotations:
-        {{- range $key, $value := .Values.persistence.annotations }}
+        {{- range $key, $value := . }}
           {{ $key }}: {{ $value }}
         {{- end }}
+      {{- end }}
       spec:
         accessModes:
         {{- range .Values.persistence.accessModes }}
@@ -307,7 +318,4 @@ spec:
         storageClassName: "{{ .Values.persistence.storageClass }}"
       {{- end }}
       {{- end }}
-{{- else }}
-      - name: data
-        emptyDir: {}
 {{- end }}
