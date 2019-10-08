@@ -17,7 +17,8 @@ Bitnami charts can be used with [Kubeapps](https://kubeapps.com/) for deployment
 
 ## Prerequisites
 
-- Kubernetes 1.4+ with Beta APIs enabled
+- Kubernetes 1.12+
+- Helm 2.11+ or Helm 3.0-beta3+
 - PV provisioner support in the underlying infrastructure
 
 ## Installing the Chart
@@ -86,7 +87,7 @@ The following tables lists the configurable parameters of the Kafka chart and th
 | `logRetentionHours`                     | The minimum age of a log file to be eligible for deletion due to age.                                                                                     | `168`                                                              |
 | `logSegmentBytes`                       | The maximum size of a log segment file. When this size is reached a new log segment will be created.                                                      | `_1073741824`                                                      |
 | `logMessageFormatVersion`               | Logging message format version.                                                                                                                           | ``                                                                 |
-| `logsDirs`                              | A comma separated list of directories under which to store log files.                                                                                     | `/opt/bitnami/kafka/data`                                          |
+| `logsDirs`                              | A comma separated list of directories under which to store log files.                                                                                     | `/bitnami/kafka/data`                                          |
 | `maxMessageBytes`                       | The largest record batch size allowed by Kafka.                                                                                                           | `1000012`                                                          |
 | `defaultReplicationFactor`              | Default replication factors for automatically created topics                                                                                              | `1`                                                                |
 | `offsetsTopicReplicationFactor`         | The replication factor for the offsets topic                                                                                                              | `1`                                                                |
