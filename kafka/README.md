@@ -301,8 +301,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | `metrics.kafka.tlsKey`                                      | The secret key from the certificatesSecret if 'client-key' key different from the default (key-file)                             | `key-file`                                                                              |
 | `metrics.kafka.tlsCaSecret`                                 | Name of the existing secret containing the optional ca certificate for Kafka Exporter client authentication                      | `""`                                                                                    |
 | `metrics.kafka.tlsCaCert`                                   | The secret key from the certificatesSecret or tlsCaSecret if 'ca-cert' key different from the default (ca-file)                  | `ca-file`                                                                               |
-| `metrics.kafka.podLabels`                                   | Kafka Exporter pod labels                                                                                                        | `{}`                                                                                    |
-| `metrics.kafka.podAnnotations`                              | Kafka Exporter pod annotations                                                                                                   | `{}`                                                                                    |
+| `metrics.kafka.podLabels`                                   | Kafka exporter pod labels                                                                                                        | `{}`                                                                                    |
+| `metrics.kafka.podAnnotations`                              | Kafka exporter pod annotations                                                                                                   | `{}`                                                                                    |
 | `metrics.kafka.resources.limits`                            | Kafka Exporter container resource limits                                                                                         | `{}`                                                                                    |
 | `metrics.kafka.resources.requests`                          | Kafka Exporter container resource requests                                                                                       | `{}`                                                                                    |
 | `metrics.kafka.affinity`                                    | Affinity for Kafka Exporter pod assignment                                                                                       | `{}`                                                                                    |
@@ -774,7 +774,7 @@ The way to configure the users and passwords changed. Now it is allowed to creat
 
 ### To 11.0.0
 
-The way to configure listeners and athentication on Kafka is totally refactored allowing users to configure different authentication protocols on different listeners. Please check the sections [Listeners Configuration](listeners-configuration) and [Listeners Configuration](enable-kafka-for-kafka-and-zookeeper) for more information.
+The way to configure listeners and athentication on Kafka is totally refactored allowing users to configure different authentication protocols on different listeners. Please check the [Listeners Configuration](#listeners-configuration) section for more information.
 
 Backwards compatibility is not guaranteed you adapt your values.yaml to the new format. Here you can find some parameters that were renamed or disappeared in favor of new ones on this major version:
 
