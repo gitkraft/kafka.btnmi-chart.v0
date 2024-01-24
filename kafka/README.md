@@ -243,6 +243,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `controller.containerSecurityContext.allowPrivilegeEscalation` | Force the child process to be run as non-privileged                                                                                                                                           | `false`                   |
 | `controller.containerSecurityContext.readOnlyRootFilesystem`   | Allows the pod to mount the RootFS as ReadOnly only                                                                                                                                           | `true`                    |
 | `controller.containerSecurityContext.capabilities.drop`        | Set Kafka containers' server Security Context capabilities to be dropped                                                                                                                      | `["ALL"]`                 |
+| `controller.automountServiceAccountToken`                      | Mount Service Account token in pod                                                                                                                                                            | `false`                   |
 | `controller.hostAliases`                                       | Kafka pods host aliases                                                                                                                                                                       | `[]`                      |
 | `controller.hostNetwork`                                       | Specify if host network should be enabled for Kafka pods                                                                                                                                      | `false`                   |
 | `controller.hostIPC`                                           | Specify if host IPC should be enabled for Kafka pods                                                                                                                                          | `false`                   |
@@ -348,6 +349,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `broker.containerSecurityContext.allowPrivilegeEscalation` | Force the child process to be run as non-privileged                                                                                                                                           | `false`                   |
 | `broker.containerSecurityContext.readOnlyRootFilesystem`   | Allows the pod to mount the RootFS as ReadOnly only                                                                                                                                           | `true`                    |
 | `broker.containerSecurityContext.capabilities.drop`        | Set Kafka containers' server Security Context capabilities to be dropped                                                                                                                      | `["ALL"]`                 |
+| `broker.automountServiceAccountToken`                      | Mount Service Account token in pod                                                                                                                                                            | `false`                   |
 | `broker.hostAliases`                                       | Kafka pods host aliases                                                                                                                                                                       | `[]`                      |
 | `broker.hostNetwork`                                       | Specify if host network should be enabled for Kafka pods                                                                                                                                      | `false`                   |
 | `broker.hostIPC`                                           | Specify if host IPC should be enabled for Kafka pods                                                                                                                                          | `false`                   |
@@ -555,6 +557,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | `metrics.kafka.containerSecurityContext.allowPrivilegeEscalation` | Set Kafka exporter containers' Security Context allowPrivilegeEscalation                                                         | `false`                                                                                 |
 | `metrics.kafka.containerSecurityContext.readOnlyRootFilesystem`   | Set Kafka exporter containers' Security Context readOnlyRootFilesystem                                                           | `true`                                                                                  |
 | `metrics.kafka.containerSecurityContext.capabilities.drop`        | Set Kafka exporter containers' Security Context capabilities to be dropped                                                       | `["ALL"]`                                                                               |
+| `metrics.kafka.automountServiceAccountToken`                      | Mount Service Account token in pod                                                                                               | `false`                                                                                 |
 | `metrics.kafka.hostAliases`                                       | Kafka exporter pods host aliases                                                                                                 | `[]`                                                                                    |
 | `metrics.kafka.podLabels`                                         | Extra labels for Kafka exporter pods                                                                                             | `{}`                                                                                    |
 | `metrics.kafka.podAnnotations`                                    | Extra annotations for Kafka exporter pods                                                                                        | `{}`                                                                                    |
@@ -626,6 +629,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | Name                                                             | Description                                                                                                                   | Value                 |
 | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- |
 | `provisioning.enabled`                                           | Enable kafka provisioning Job                                                                                                 | `false`               |
+| `provisioning.automountServiceAccountToken`                      | Mount Service Account token in pod                                                                                            | `false`               |
 | `provisioning.numPartitions`                                     | Default number of partitions for topics when unspecified                                                                      | `1`                   |
 | `provisioning.replicationFactor`                                 | Default replication factor for topics when unspecified                                                                        | `1`                   |
 | `provisioning.topics`                                            | Kafka topics to provision                                                                                                     | `[]`                  |
@@ -758,7 +762,7 @@ You can configure different authentication protocols for each listener you confi
 | sasl      | Yes (via SASL)               | No                 |
 | sasl_tls  | Yes (via SASL)               | Yes                |
 
-Learn more about how to configure Kafka to use the different authentication protocols in the [chart documentation](https://docs.bitnami.com/kubernetes/infrastructure/kafka/administration/enable-security/).
+Configure the authentication protocols for client and inter-broker communications by setting the *auth.clientProtocol* and *auth.interBrokerProtocol* parameters to the desired ones, respectively.
 
 If you enabled SASL authentication on any listener, you can set the SASL credentials using the parameters below:
 
@@ -957,6 +961,31 @@ externalAccess:
   service:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: "{{ .targetPod }}.example.com"
+```
+
+### Enable metrics
+
+The chart can optionally start two metrics exporters:
+
+- Kafka exporter, to expose Kafka metrics. By default, it uses port 9308.
+- JMX exporter, to expose JMX metrics. By default, it uses port 5556.
+
+To create a separate Kafka exporter, use the parameter below:
+
+```text
+metrics.kafka.enabled: true
+```
+
+To expose JMX metrics to Prometheus, use the parameter below:
+
+```text
+metrics.jmx.enabled: true
+```
+
+- To enable Zookeeper chart metrics, use the parameter below:
+
+```text
+zookeeper.metrics.enabled: true
 ```
 
 ### Sidecars
